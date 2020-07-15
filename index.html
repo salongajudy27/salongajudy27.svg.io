@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Button Maker</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+	<div class="container">
+		<svg width="400" height="110">
+			<g>
+				<rect fill="#decece" stroke="#000000" x="0" y="0" width="100%" height="100%" id="rectID"></rect>
+				<text x="50%" y="50%"  dominant-baseline="middle" text-anchor="middle" font-family="Verdana" font-size="35" fill="#10307a" id="txtSvg">Hello</text>
+			</g>
+		</svg>
+	</div>
+	<div class="grid-container">
+		<div class="grid-item"> 
+			<h1>Font & Background Color</h1>
+			<label for="favcolor">Select background color:</label>
+	  		<input type="color" id="bgcolor" value="#decece" onInput="changeProperty()"><br><br>
+	
+			<label for="favcolor">Select font color:</label>
+	  		<input type="color" id="fontColor" value="#10307a" onInput="changeProperty()"><br><br>
+		</div>
+		<div class="grid-item"> 
+			<h1>Border</h1>
+			<label for="favcolor">Select border color:</label>
+	  		<input type="color" value="#000000" onInput="changeProperty()" id="borderColor"><br><br>
+	
+			<label for="favcolor">Select border width:</label>
+			<input type="range" min="1" max="100" value="5" class="slider" onInput="changeProperty()" id="borderWidth"><label id="lblSliderValue">5</label><br><br>
+		</div>
+	</div>
+	
+	
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+ <script>
+ 	function changeProperty()
+ 	{
+ 		debugger;
+		// Bg COLOR
+		var $bgcolor = $("#bgcolor").val();
+		// Font Color
+		var $fontColor = $("#fontColor").val();
+		// Border Color
+		var $borderColor = $("#borderColor").val();
+		// Border Width
+		var $borderWidth = $("#borderWidth").val();
+		$("#rectID").attr('fill', $bgcolor);
+		$("#txtSvg").attr('fill', $fontColor);
+		$("#rectID").attr("stroke",$borderColor);
+		$("#lblSliderValue").text($borderWidth);
+ 		$("#rectID").attr("stroke-width",$borderWidth);
+ 	}
+ 	// function changeStrokeColor(colorValue)
+ 	// {
+ 	// 	$("#rectID").attr('style', "stroke:"+ colorValue)
+ 	// }
+ 	// function changeStrokeWidth(sliderValue)
+ 	// {
+ 	// 	$("#lblSliderValue").text(sliderValue);
+ 	// 	$("#rectID").attr('style', "stroke-width:"+ sliderValue)
+ 	// }
+ </script>
+</body>
+</html>

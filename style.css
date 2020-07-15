@@ -1,0 +1,32 @@
+body{
+    margin: auto 0;
+}
+/*MEDIA QUERIES*/
+@media only screen and (max-width: 600px)
+{
+    .container{
+        font-size:0.5em;
+        padding: 0;
+    }
+}
+.container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 50vh; 
+}
+.grid-container {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  grid-template-rows: 100%;
+  padding: 1px;
+  justify-content: center;
+  align-items: center;
+}
+.grid-item{
+	display: grid;
+    gap: 1px;
+    align-items: center;
+    justify-items: center;
+    border: 1px solid black;
+}
