@@ -1,66 +1,182 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Button Maker</title>
+	<title>SVG Editor</title>
+
 	<link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
-	<div class="container">
-		<svg width="400" height="110">
-			<g>
-				<rect fill="#decece" stroke="#000000" x="0" y="0" width="100%" height="100%" id="rectID"></rect>
-				<text x="50%" y="50%"  dominant-baseline="middle" text-anchor="middle" font-family="Verdana" font-size="35" fill="#10307a" id="txtSvg">Hello</text>
-			</g>
-		</svg>
+	<nav class="zone blue sticky">
+	  	<h1 class="title">SVG EDITOR</h1>
+	</nav>
+	<div class="container zone">
+		<div id="svgContainer"> 
+				<svg width="400" height="150">
+					<defs>
+						<clipPath id ="clipPathId">
+							<path  id="svgPath" d="M00,0h400h0v0v110v0h0h-400h0v0v-110a0,0 0 0 1 0,0"/>
+						</clipPath>
+					</defs>
+						<rect clip-path="url(#clipPathId)"  x="0" y="0" width="100%" height="100%" fill="none" id="rectID"></rect>
+				</svg>
+		</div>
+		<div class="svgText" role="textbox" contenteditable="true" >
+			YOUR TEXT HERE<br>
+			<em style="font-size: 14px;">(It can span multiple lines)</em>
+		</div>
+		
 	</div>
 	<div class="grid-container">
-		<div class="grid-item"> 
-			<h1>Font & Background Color</h1>
-			<label for="favcolor">Select background color:</label>
-	  		<input type="color" id="bgcolor" value="#decece" onInput="changeProperty()"><br><br>
-	
-			<label for="favcolor">Select font color:</label>
-	  		<input type="color" id="fontColor" value="#10307a" onInput="changeProperty()"><br><br>
-		</div>
+		<div class="grid-item">
+			<h1>Font</h1>
+			<div class="newRow">
+				<label for="favcolor">Select font color:</label>
+	  			<input type="color" id="fontColor" value="#ffffff" onInput="changeFontColor()"><br>
+			</div>
+			<div class="newRow">
+	  			<label for="txtBold">Bold</label>
+	  			<input type="checkbox" name="txtBold" id="txtBold" onclick="changeFontBold()">
+			<!-- </div>
+			<div class="newRow"> -->
+	  			<label for="txtItalic">Italic</label>
+	  			<input type="checkbox" name="txtItalic" id="txtItalic" onclick="changeFontItalic()">
+			</div>
+			<div class="newRow">
+	  			<label for="txtUnderline">Underline</label>
+	  			<input type="checkbox" name="txtUnderline" id="txtUnderline" onclick="changeFontUnderline()">
+			<!-- </div>
+			<div class="newRow"> -->
+	  			<label for="txtStrikethrough">Strikethrough</label>
+	  			<input type="checkbox" name="txtStrikethrough" id="txtStrikethrough" onclick="changeFontStrikethrough()"><br><br>
+			</div>
+			<div class="newRow" id="txtShadow" style= "border: 1px solid white;">
+					<br><label for="txtShadow">Text Shadow</label><br>
+					<div class="newRow">
+						<label for="hOffset">Horizontal offset:</label>
+						<input type="range" min="-25" max="25" value="1" class="slider" id="hOffset"><label id="lblhOffset">1</label><br>
+					</div>
+					<div class="newRow">
+						<label for="vOffset">Vertical offset:</label>
+						<input type="range" min="-25" max="25" value="1" class="slider" id="vOffset"><label id="lblvOffset">1</label><br>
+					</div>
+					<div class="newRow">
+						<label for="blur">Blur:</label>
+						<input type="range" min="0" max="50" value="2" class="slider" id="blur"><label id="lblBlur">2</label><br>
+					</div>
+					<div class="newRow">
+						<label for="shadowColor">Color:</label>
+		  				<input type="color" id="shadowColor" value="#665e5e"><br><br>
+		  			</div>
+	  			</div>
+			</div>
 		<div class="grid-item"> 
 			<h1>Border</h1>
-			<label for="favcolor">Select border color:</label>
-	  		<input type="color" value="#000000" onInput="changeProperty()" id="borderColor"><br><br>
-	
-			<label for="favcolor">Select border width:</label>
-			<input type="range" min="1" max="100" value="5" class="slider" onInput="changeProperty()" id="borderWidth"><label id="lblSliderValue">5</label><br><br>
+			<div class="borderColor">
+				<label for="favcolor">Select border color:</label>
+	  			<input type="color" value="#000000" onInput="changeProperty()" id="borderColor"><br>
+			</div>
+			<div class="borderWidth">
+				<label for="favcolor">Select border width:</label>
+				<input type="range" min="1" max="100" value="3" class="slider" onInput="changeProperty()" id="borderWidth"><label id="lblSliderValue">3</label><br>
+			</div>
+			
 		</div>
+		<div class="grid-item"> 
+			<h1>Background</h1>
+			<div class="newRow">
+				<label for="startcolor">Select start color:</label>
+	  			<input type="color" id="startcolor" value="#d55959" onInput="LoadBGColor(undefined,undefined)"><br>
+			</div>
+			<div class="newRow">
+				<label for="endcolor">Select end color:</label>
+	  			<input type="color" id="endcolor" value="#3e809d" onInput="LoadBGColor(undefined,undefined)"><br>
+			</div>
+			<div class="orientation">
+		  			<label for="orientation">Orientation:</label>
+		  			<img class="imgSelect" src="./img/topbottom.png" alt="top to bottom" title="top to bottom" onclick="LoadBGColor(1); changeActive(this)">
+		  			<img src="./img/leftright.png" alt="left to right" title="left to right" onclick="LoadBGColor(2); changeActive(this)">
+		  			<img src="./img/topleftbottom.png" alt="top left to bottom right" title="top left to bottom right" onclick="LoadBGColor(3); changeActive(this)">
+		  			<img src="./img/bottomleftright.png" alt="bottom left to top right" title="bottom left to top right" onclick="LoadBGColor(4); changeActive(this)">
+		  			<img src="./img/radial.png" alt="from center to extremeties" title="from center to extremeties" onclick="LoadBGColor(5); changeActive(this)">
+		    </div>
+			<div class="newRow">
+	  			<label for="waveEffect">Wave effect?</label>
+	  			<input type="checkbox" name="waveEffect" onclick="LoadBGColor(undefined,this.checked)">
+			</div>
+		</div>
+		<div class="grid-item"> 
+			<h1>Corner Radius</h1>
+			<div class="newRow">
+				<label for="topLeft">Top Left:</label>
+				<input type="range" min="0" max="50" value="0" class="slider" onInput="changeProperty()" id="topLeftCorner"><label id="lbltopLeftCorner">0</label><br>
+			</div>
+			<div class="newRow">
+				<label for="topRight">Top Right:</label>
+				<input type="range" min="0" max="50" value="0" class="slider" onInput="changeProperty()" id="topRightCorner"><label id="lbltopRightCorner">0</label><br>
+			</div>
+			<div class="newRow">
+				<label for="bottomLeft">Bottom Left:</label>
+				<input type="range" min="0" max="50" value="0" class="slider" onInput="changeProperty()" id="bottomLeftCorner"><label id="lblbottomLeftCorner">0</label><br>
+			</div>
+			<div class="newRow">
+				<label for="bottomRight">Bottom Right:</label>
+				<input type="range" min="0" max="50" value="0" class="slider" onInput="changeProperty()" id="bottomRightCorner"><label id="lblbottomRightCorner">0</label><br>
+			</div>
+		</div>
+		<div class="grid-item"> 
+			<h1>Size</h1>
+			<div class="newRow">
+				<label for="type">Type:</label><br><br>
+				<div class="btn-group">
+					<button class="button" onclick="SetSVGDimension(true)">Fit to Text</button>
+					<button class="button" onclick="SetSVGDimension(false)">Fixed</button>
+				</div><br><br>
+			</div>
+			<div class="newRow">
+				<label for="vPadding">Vertical padding:</label>
+				<input type="range" min="0" max="50" value="10" class="slider" onInput="changePaddingProperty()" id="vPadding"><label id="lblvPadding">10</label><br>
+			</div>
+			<div class="newRow">
+				<label for="hPadding">Horizontal padding:</label>
+				<input type="range" min="0" max="50" value="10" class="slider" onInput="changePaddingProperty()" id="hPadding"><label id="lblhPadding">10</label><br>
+			</div>
+		</div>
+		<div class="grid-item"> 
+			<h1>Shadow</h1>
+			<div class="divShadowMain">
+				<div class="divShadow" id="divShadow1">
+					<div class="newRow">
+						<label for="hOffset">Horizontal offset:</label>
+						<input type="range" min="-25" max="25" value="1" class="slider" onInput="changeShadowProperty();" id="hOffset"><label id="lblhOffset">1</label><br>
+					</div>
+					<div class="newRow">
+						<label for="vOffset">Vertical offset:</label>
+						<input type="range" min="-25" max="25" value="1" class="slider" onInput="changeShadowProperty()" id="vOffset"><label id="lblvOffset">1</label><br>
+					</div>
+					<div class="newRow">
+						<label for="blur">Blur:</label>
+						<input type="range" min="0" max="50" value="2" class="slider" onInput="changeShadowProperty()" id="blur"><label id="lblBlur">2</label><br>
+					</div>
+					<div class="newRow">
+						<label for="shadowColor">Color:</label>
+		  				<input type="color" id="shadowColor" value="#665e5e" onInput="changeShadowProperty()"><br>
+		  			</div>
+		  			<div class="newRow">
+		  				<img class="inline" src="./img/add.png" alt="add a shadow" title="add a shadow" onclick="CloneDivShadow()">
+	  					<img class="inline" src="./img/minus.png" alt="delete shadow" title="delete shadow" onclick="RemoveShadow(this)">
+	  					<img class="inline" src="./img/upward.png" alt="move upward" title="move upward" onclick="" hidden="hidden">
+	  					<img class="inline" src="./img/downward.png" alt="move downward" title="move downward" onclick="" hidden="hidden">
+		  			</div>
+	  					
+				</div>
+			</div>
+			
+		</div>
+		
 	</div>
-	
-	
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
- <script>
- 	function changeProperty()
- 	{
- 		debugger;
-		// Bg COLOR
-		var $bgcolor = $("#bgcolor").val();
-		// Font Color
-		var $fontColor = $("#fontColor").val();
-		// Border Color
-		var $borderColor = $("#borderColor").val();
-		// Border Width
-		var $borderWidth = $("#borderWidth").val();
-		$("#rectID").attr('fill', $bgcolor);
-		$("#txtSvg").attr('fill', $fontColor);
-		$("#rectID").attr("stroke",$borderColor);
-		$("#lblSliderValue").text($borderWidth);
- 		$("#rectID").attr("stroke-width",$borderWidth);
- 	}
- 	// function changeStrokeColor(colorValue)
- 	// {
- 	// 	$("#rectID").attr('style', "stroke:"+ colorValue)
- 	// }
- 	// function changeStrokeWidth(sliderValue)
- 	// {
- 	// 	$("#lblSliderValue").text(sliderValue);
- 	// 	$("#rectID").attr('style', "stroke-width:"+ sliderValue)
- 	// }
- </script>
+<script type="text/javascript" src="svgScript.js"></script>
+ 	
 </body>
 </html>
