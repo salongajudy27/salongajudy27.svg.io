@@ -10,21 +10,20 @@
 	  	<h1 class="title">SVG EDITOR</h1>
 	</nav>
 	<div class="container zone">
-		<div id="svgContainer"> 
-				<svg width="400" height="150">
+				<svg width="400" height="150" class="svgClass">
 					<defs>
 						<clipPath id ="clipPathId">
 							<path  id="svgPath" d="M00,0h400h0v0v110v0h0h-400h0v0v-110a0,0 0 0 1 0,0"/>
 						</clipPath>
 					</defs>
-						<rect clip-path="url(#clipPathId)"  x="0" y="0" width="100%" height="100%" fill="none" id="rectID"></rect>
+					 <g >
+					 	<rect clip-path="url(#clipPathId)"  x="0" y="0" width="100%" height="100%"  id="rectID" fill="none"></rect>
+		                <div class="svgText" role="textbox" contenteditable="true" >
+							YOUR TEXT HERE<br>
+							<em style="font-size: 14px;">(It can span multiple lines)</em>
+						</div>
+					 </g>
 				</svg>
-		</div>
-		<div class="svgText" role="textbox" contenteditable="true" >
-			YOUR TEXT HERE<br>
-			<em style="font-size: 14px;">(It can span multiple lines)</em>
-		</div>
-		
 	</div>
 	<div class="grid-container">
 		<div class="grid-item">
@@ -49,7 +48,7 @@
 	  			<label for="txtStrikethrough">Strikethrough</label>
 	  			<input type="checkbox" name="txtStrikethrough" id="txtStrikethrough" onclick="changeFontStrikethrough()"><br><br>
 			</div>
-			<div class="newRow" id="txtShadow" style= "border: 1px solid white;">
+			<div class="newRow" id="txtShadow" style= "border: 1px solid white;" hidden>
 					<br><label for="txtShadow">Text Shadow</label><br>
 					<div class="newRow">
 						<label for="hOffset">Horizontal offset:</label>
@@ -73,11 +72,11 @@
 			<h1>Border</h1>
 			<div class="borderColor">
 				<label for="favcolor">Select border color:</label>
-	  			<input type="color" value="#000000" onInput="changeProperty()" id="borderColor"><br>
+	  			<input type="color" value="#000000" onInput="changeProperty();" id="borderColor"><br>
 			</div>
 			<div class="borderWidth">
 				<label for="favcolor">Select border width:</label>
-				<input type="range" min="1" max="100" value="3" class="slider" onInput="changeProperty()" id="borderWidth"><label id="lblSliderValue">3</label><br>
+				<input type="range" min="1" max="100" value="3" class="slider" onInput="changeProperty();" id="borderWidth"><label id="lblSliderValue">3</label><br>
 			</div>
 			
 		</div>
@@ -85,42 +84,44 @@
 			<h1>Background</h1>
 			<div class="newRow">
 				<label for="startcolor">Select start color:</label>
-	  			<input type="color" id="startcolor" value="#d55959" onInput="LoadBGColor(undefined,undefined)"><br>
+	  			<input type="color" id="startcolor" value="#d55959" onInput="SetBG(undefined,undefined);"><br>
 			</div>
 			<div class="newRow">
 				<label for="endcolor">Select end color:</label>
-	  			<input type="color" id="endcolor" value="#3e809d" onInput="LoadBGColor(undefined,undefined)"><br>
+	  			<input type="color" id="endcolor" value="#3e809d" onInput="SetBG(undefined,undefined);"><br>
 			</div>
 			<div class="orientation">
+					<input type="hidden" name="orientationType" id="orientationType" value="1">
+					<input type="hidden" name="isWaveEffect" id="isWaveEffect" value=false>
 		  			<label for="orientation">Orientation:</label>
-		  			<img class="imgSelect" src="./img/topbottom.png" alt="top to bottom" title="top to bottom" onclick="LoadBGColor(1); changeActive(this)">
-		  			<img src="./img/leftright.png" alt="left to right" title="left to right" onclick="LoadBGColor(2); changeActive(this)">
-		  			<img src="./img/topleftbottom.png" alt="top left to bottom right" title="top left to bottom right" onclick="LoadBGColor(3); changeActive(this)">
-		  			<img src="./img/bottomleftright.png" alt="bottom left to top right" title="bottom left to top right" onclick="LoadBGColor(4); changeActive(this)">
-		  			<img src="./img/radial.png" alt="from center to extremeties" title="from center to extremeties" onclick="LoadBGColor(5); changeActive(this)">
+		  			<img class="imgSelect" src="./img/topbottom.png" alt="top to bottom" title="top to bottom" onclick="SetBG(1); changeActive(this);">
+		  			<img src="./img/leftright.png" alt="left to right" title="left to right" onclick="SetBG(2); changeActive(this);">
+		  			<img src="./img/topleftbottom.png" alt="top left to bottom right" title="top left to bottom right" onclick="SetBG(3); changeActive(this);">
+		  			<img src="./img/bottomleftright.png" alt="bottom left to top right" title="bottom left to top right" onclick="SetBG(4); changeActive(this);">
+		  			<img src="./img/radial.png" alt="from center to extremeties" title="from center to extremeties" onclick="SetBG(5); changeActive(this);">
 		    </div>
 			<div class="newRow">
 	  			<label for="waveEffect">Wave effect?</label>
-	  			<input type="checkbox" name="waveEffect" onclick="LoadBGColor(undefined,this.checked)">
+	  			<input type="checkbox" name="waveEffect" onclick="SetBG(undefined,this.checked);">
 			</div>
 		</div>
 		<div class="grid-item"> 
 			<h1>Corner Radius</h1>
 			<div class="newRow">
 				<label for="topLeft">Top Left:</label>
-				<input type="range" min="0" max="50" value="0" class="slider" onInput="changeProperty()" id="topLeftCorner"><label id="lbltopLeftCorner">0</label><br>
+				<input type="range" min="0" max="50" value="0" class="slider" onInput="changeProperty();" id="topLeftCorner"><label id="lbltopLeftCorner">0</label><br>
 			</div>
 			<div class="newRow">
 				<label for="topRight">Top Right:</label>
-				<input type="range" min="0" max="50" value="0" class="slider" onInput="changeProperty()" id="topRightCorner"><label id="lbltopRightCorner">0</label><br>
+				<input type="range" min="0" max="50" value="0" class="slider" onInput="changeProperty();" id="topRightCorner"><label id="lbltopRightCorner">0</label><br>
 			</div>
 			<div class="newRow">
 				<label for="bottomLeft">Bottom Left:</label>
-				<input type="range" min="0" max="50" value="0" class="slider" onInput="changeProperty()" id="bottomLeftCorner"><label id="lblbottomLeftCorner">0</label><br>
+				<input type="range" min="0" max="50" value="0" class="slider" onInput="changeProperty();" id="bottomLeftCorner"><label id="lblbottomLeftCorner">0</label><br>
 			</div>
 			<div class="newRow">
 				<label for="bottomRight">Bottom Right:</label>
-				<input type="range" min="0" max="50" value="0" class="slider" onInput="changeProperty()" id="bottomRightCorner"><label id="lblbottomRightCorner">0</label><br>
+				<input type="range" min="0" max="50" value="0" class="slider" onInput="changeProperty();" id="bottomRightCorner"><label id="lblbottomRightCorner">0</label><br>
 			</div>
 		</div>
 		<div class="grid-item"> 
@@ -134,11 +135,11 @@
 			</div>
 			<div class="newRow">
 				<label for="vPadding">Vertical padding:</label>
-				<input type="range" min="0" max="50" value="10" class="slider" onInput="changePaddingProperty()" id="vPadding"><label id="lblvPadding">10</label><br>
+				<input type="range" min="0" max="50" value="10" class="slider" onInput="changeProperty()" id="vPadding"><label id="lblvPadding">10</label><br>
 			</div>
 			<div class="newRow">
 				<label for="hPadding">Horizontal padding:</label>
-				<input type="range" min="0" max="50" value="10" class="slider" onInput="changePaddingProperty()" id="hPadding"><label id="lblhPadding">10</label><br>
+				<input type="range" min="0" max="50" value="10" class="slider" onInput="changeProperty()" id="hPadding"><label id="lblhPadding">10</label><br>
 			</div>
 		</div>
 		<div class="grid-item"> 
@@ -147,19 +148,19 @@
 				<div class="divShadow" id="divShadow1">
 					<div class="newRow">
 						<label for="hOffset">Horizontal offset:</label>
-						<input type="range" min="-25" max="25" value="1" class="slider" onInput="changeShadowProperty();" id="hOffset"><label id="lblhOffset">1</label><br>
+						<input type="range" min="-25" max="25" value="1" class="slider" onInput="changeProperty();" id="hOffset"><label id="lblhOffset">1</label><br>
 					</div>
 					<div class="newRow">
 						<label for="vOffset">Vertical offset:</label>
-						<input type="range" min="-25" max="25" value="1" class="slider" onInput="changeShadowProperty()" id="vOffset"><label id="lblvOffset">1</label><br>
+						<input type="range" min="-25" max="25" value="1" class="slider" onInput="changeProperty();" id="vOffset"><label id="lblvOffset">1</label><br>
 					</div>
 					<div class="newRow">
 						<label for="blur">Blur:</label>
-						<input type="range" min="0" max="50" value="2" class="slider" onInput="changeShadowProperty()" id="blur"><label id="lblBlur">2</label><br>
+						<input type="range" min="0" max="50" value="2" class="slider" onInput="changeProperty();" id="blur"><label id="lblBlur">2</label><br>
 					</div>
 					<div class="newRow">
 						<label for="shadowColor">Color:</label>
-		  				<input type="color" id="shadowColor" value="#665e5e" onInput="changeShadowProperty()"><br>
+		  				<input type="color" id="shadowColor" value="#665e5e" onInput="changeProperty();"><br>
 		  			</div>
 		  			<div class="newRow">
 		  				<img class="inline" src="./img/add.png" alt="add a shadow" title="add a shadow" onclick="CloneDivShadow()">
